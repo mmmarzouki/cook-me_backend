@@ -41,7 +41,7 @@ public class UserController {
         Optional<User> user =  userRepository.findById(id);
         if (user.isPresent())
             return ResponseEntity.status(HttpStatus.OK).body(user.get());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -67,7 +67,7 @@ public class UserController {
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.OK).body(user);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -80,6 +80,6 @@ public class UserController {
         Optional<User> user =  userRepository.findById(id);
         if (user.isPresent())
             return ResponseEntity.status(HttpStatus.OK).build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
