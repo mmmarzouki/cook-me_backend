@@ -41,7 +41,7 @@ public class UserController {
         Optional<User> user =  userRepository.findById(id);
         if (user.isPresent())
             return ResponseEntity.status(HttpStatus.OK).body(user.get());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
     /**
