@@ -82,4 +82,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    /**
+     *
+     * @param user that is trying to login
+     * @return the user found in the database, the method will return null if user not found
+     */
+    @PostMapping(path = "/login")
+    public ResponseEntity<User> login(@RequestBody User user){
+        User userDb =  userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(userDb);
+    }
 }
