@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RecipeService {
 
@@ -23,6 +25,9 @@ public class RecipeService {
     @Autowired
     RecipeRepository recipeRepository;
 
+    @Autowired
+    QuantityService quantityService;
+
     public ResponseEntity<Recipe> save(Recipe recipe) {
         for (Quantity quantity: recipe.getQuantities()) {
             quantityRepository.save(quantity);
@@ -32,5 +37,15 @@ public class RecipeService {
         }
         recipeRepository.save(recipe);
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
+    }
+    public boolean recipeRespectsQuantities(Recipe recipe, List<Quantity> quantities){
+        for(Quantity quantityInRecipe: recipe.getQuantities()){
+            Quantity quantity = quantityService.getQuantityOfSameIngredient(quantityInRecipe,quantities);
+            if(quantity == null)
+                return false;
+            if(quantity.getValue() < quantityInRecipe.getValue())
+                return false;
+        }
+        return true;
     }
 }

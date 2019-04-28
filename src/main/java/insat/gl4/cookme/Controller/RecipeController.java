@@ -6,12 +6,16 @@ import insat.gl4.cookme.models.temp.RecipeComment;
 import insat.gl4.cookme.models.temp.RecipeRated;
 import insat.gl4.cookme.repositories.CommentRepository;
 import insat.gl4.cookme.repositories.RecipeRepository;
+import insat.gl4.cookme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -26,6 +30,8 @@ public class RecipeController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping(path = "/recipe")
     public Iterable<Recipe> findAll(){
@@ -79,4 +85,24 @@ public class RecipeController {
         return recipeService.save(recipe);
     }
 
+    @GetMapping(path = "/recipe/search/user/{id}")
+    public ResponseEntity<List<Recipe>> findByUser(@PathVariable int id){
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.OK).body(user.get().getRecipes());
+    }
+
+    @GetMapping(path = "/recipe/search/name/{name}")
+    public ResponseEntity<List<Recipe>> findByName(@PathVariable String name){
+        List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
+        List<Recipe> foundRecipes = allRecipes.stream().filter(recipe -> recipe.getName().contains(name)).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(foundRecipes);
+    }
+    @PostMapping(path = "/recipe/search/ingredients")
+    public ResponseEntity<List<Recipe>> findByIngredients(@RequestBody List<Quantity> quantities){
+        List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
+        List<Recipe> foundRecipes = allRecipes.stream().filter(recipe -> recipeService.recipeRespectsQuantities(recipe,quantities)).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(foundRecipes);
+    }
 }
