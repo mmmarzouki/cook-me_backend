@@ -2,9 +2,9 @@ package insat.gl4.cookme.repositories;
 
 import insat.gl4.cookme.models.User;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource(collectionResourceRel = "user", path = "user")
+@Repository
 public interface UserRepository extends CrudRepository<User,Integer> {
-    User findByUsernameAndPasswd(String username, String passwd);
+    User findByEmailAndPassword(String email, String password);
 }

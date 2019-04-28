@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
+@Entity
 public class User {
 
     @Id
@@ -27,8 +27,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "passwd")
-    private String passwd;
+    @Column(name = "password")
+    private String password;
 
 
 
