@@ -22,6 +22,12 @@ public class Recipe {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "numVotes")
+    private int numVotes;
+
+    @Column(name = "score")
+    private float score;
+
     @ManyToOne
     private User user;
 
@@ -31,9 +37,7 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe")
     private List<Comment> comments;
 
-    @Column(name = "numVotes")
-    private int numVotes;
+    @OneToMany(mappedBy = "recipe")
+    private List<Step> steps;
 
-    @Column(name = "score")
-    private float score;
 }

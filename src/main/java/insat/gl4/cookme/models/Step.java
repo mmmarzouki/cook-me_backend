@@ -20,4 +20,7 @@ public class Step {
 
     @Column(name = "value")
     private String value;
+
+    @ManyToOne
+    Recipe recipe;
 }
