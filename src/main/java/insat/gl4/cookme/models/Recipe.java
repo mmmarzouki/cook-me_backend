@@ -25,7 +25,7 @@ public class Recipe {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "recipe")
     private List<Quantity> quantities;
 
     @OneToMany(mappedBy = "recipe")

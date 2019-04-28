@@ -27,6 +27,6 @@ public class Quantity {
     private float value;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "quantities")
-    private List<Recipe> recipes;
+    @ManyToOne
+    private Recipe recipe;
 }
