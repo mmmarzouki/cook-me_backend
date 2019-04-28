@@ -8,12 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class User {
+@NoArgsConstructor
+public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -22,16 +22,9 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "lastname")
-    private String lastName;
+    @ManyToOne
+    private User user;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @OneToMany(mappedBy = "name")
-    ArrayList<Recipe> recipes;
-
+    @ManyToMany
+    private ArrayList<Quantity> quantities;
 }

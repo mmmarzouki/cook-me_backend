@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -27,5 +28,5 @@ public class Ingredient {
 
     @JsonIgnore
     @OneToMany(mappedBy = "ingredient")
-    private Iterable<Quantity> quantities;
+    private ArrayList<Quantity> quantities;
 }
