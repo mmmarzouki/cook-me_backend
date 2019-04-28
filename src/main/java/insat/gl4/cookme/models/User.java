@@ -1,5 +1,6 @@
 package insat.gl4.cookme.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "name")
+    @OneToMany(mappedBy = "user")
     ArrayList<Recipe> recipes;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    ArrayList<Comment> comments;
 }

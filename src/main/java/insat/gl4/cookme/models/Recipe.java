@@ -27,4 +27,13 @@ public class Recipe {
 
     @ManyToMany
     private ArrayList<Quantity> quantities;
+
+    @OneToMany(mappedBy = "recipe")
+    private ArrayList<Comment> comments;
+
+    @Column(name = "numVotes")
+    private int numVotes;
+
+    @Column(name = "score")
+    private float score;
 }
