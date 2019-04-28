@@ -1,6 +1,5 @@
 package insat.gl4.cookme.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,19 +12,15 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient {
+public class Quantity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne
+    Ingredient ingredient;
 
-    @Column(name = "unit")
-    private String unit;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "ingredient")
-    private Iterable<Quantity> quantities;
+    @Column(name = "value")
+    private float value;
 }
