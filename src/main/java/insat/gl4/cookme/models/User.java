@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,10 +32,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    ArrayList<Recipe> recipes;
+    List<Recipe> recipes;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    ArrayList<Comment> comments;
+    List<Comment> comments;
 }

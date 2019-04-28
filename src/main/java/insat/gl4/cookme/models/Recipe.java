@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,10 +26,10 @@ public class Recipe {
     private User user;
 
     @ManyToMany
-    private ArrayList<Quantity> quantities;
+    private List<Quantity> quantities;
 
     @OneToMany(mappedBy = "recipe")
-    private ArrayList<Comment> comments;
+    private List<Comment> comments;
 
     @Column(name = "numVotes")
     private int numVotes;
