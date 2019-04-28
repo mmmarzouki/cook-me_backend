@@ -1,10 +1,13 @@
 package insat.gl4.cookme.Controller;
 
-import insat.gl4.cookme.models.Quantity;
-import insat.gl4.cookme.models.Recipe;
+import insat.gl4.cookme.Services.RecipeService;
+import insat.gl4.cookme.models.*;
+import insat.gl4.cookme.models.temp.RecipeComment;
 import insat.gl4.cookme.models.temp.RecipeRated;
+import insat.gl4.cookme.repositories.CommentRepository;
 import insat.gl4.cookme.repositories.QuantityRepository;
 import insat.gl4.cookme.repositories.RecipeRepository;
+import insat.gl4.cookme.repositories.StepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,11 @@ public class RecipeController {
     RecipeRepository recipeRepository;
 
     @Autowired
-    QuantityRepository quantityRepository;
+    RecipeService recipeService;
+
+    @Autowired
+    CommentRepository commentRepository;
+
 
     @GetMapping(path = "/recipe")
     public Iterable<Recipe> findAll(){
@@ -37,11 +44,7 @@ public class RecipeController {
 
     @PostMapping(path = "/recipe")
     public ResponseEntity<Recipe> create(@RequestBody Recipe recipe){
-        for (Quantity quantity: recipe.getQuantities()) {
-            quantityRepository.save(quantity);
-        }
-        recipeRepository.save(recipe);
-        return ResponseEntity.status(HttpStatus.OK).body(recipe);
+        return recipeService.save(recipe);
     }
 
     @PutMapping(path = "/recipe/rate")
@@ -54,4 +57,28 @@ public class RecipeController {
         recipeRepository.save(recipe);
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
     }
+
+    @PutMapping(path = "/recipe/comment")
+    public ResponseEntity<Recipe> comment(@RequestBody RecipeComment recipeComment){
+        Recipe recipe = recipeComment.getRecipe();
+        User user = recipeComment.getUser();
+        String value = recipeComment.getComment();
+        Comment comment = new Comment();
+        comment.setRecipe(recipe);
+        comment.setUser(user);
+        comment.setValue(value);
+        commentRepository.save(comment);
+        recipe.getComments().add(comment);
+        recipeRepository.save(recipe);
+        return ResponseEntity.status(HttpStatus.OK).body(recipe);
+    }
+
+    @PostMapping(path = "/recipe/{id}")
+    public ResponseEntity<Recipe> update(@PathVariable int id, @RequestBody Recipe recipe){
+        Optional<Recipe> recipeDb = recipeRepository.findById(id);
+        if (!recipeDb.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return recipeService.save(recipe);
+    }
+
 }
