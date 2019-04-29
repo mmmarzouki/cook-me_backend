@@ -2,19 +2,13 @@ package insat.gl4.cookme.controller;
 
 import insat.gl4.cookme.services.RecipeService;
 import insat.gl4.cookme.models.*;
-import insat.gl4.cookme.models.temp.RecipeComment;
-import insat.gl4.cookme.models.temp.RecipeRated;
-import insat.gl4.cookme.repositories.CommentRepository;
 import insat.gl4.cookme.repositories.RecipeRepository;
-import insat.gl4.cookme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
