@@ -47,4 +47,12 @@ public class RecipeController {
         return recipeService.save(recipe);
     }
 
+    @DeleteMapping(path = "/recipe/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id){
+        Optional<Recipe> recipe =  recipeRepository.findById(id);
+        if (recipe.isPresent())
+            return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }
