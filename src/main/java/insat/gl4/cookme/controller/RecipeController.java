@@ -26,11 +26,6 @@ public class RecipeController {
     @Autowired
     RecipeService recipeService;
 
-    @Autowired
-    CommentRepository commentRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     @GetMapping(path = "/recipe")
     public Iterable<Recipe> findAll(){
@@ -50,33 +45,7 @@ public class RecipeController {
         return recipeService.save(recipe);
     }
 
-    @PutMapping(path = "/recipe/rate")
-    public ResponseEntity<Recipe> rate(@RequestBody RecipeRated recipeRated){
-        Recipe recipe = recipeRated.getRecipe();
-        float rate = recipeRated.getScore();
-        float score = (recipe.getScore()+rate)/(recipe.getNumVotes()+1);
-        recipe.setScore(score);
-        recipe.setScore(recipe.getScore()+1);
-        recipeRepository.save(recipe);
-        return ResponseEntity.status(HttpStatus.OK).body(recipe);
-    }
-
-    @PutMapping(path = "/recipe/comment")
-    public ResponseEntity<Recipe> comment(@RequestBody RecipeComment recipeComment){
-        Recipe recipe = recipeComment.getRecipe();
-        User user = recipeComment.getUser();
-        String value = recipeComment.getComment();
-        Comment comment = new Comment();
-        comment.setRecipe(recipe);
-        comment.setUser(user);
-        comment.setValue(value);
-        commentRepository.save(comment);
-        recipe.getComments().add(comment);
-        recipeRepository.save(recipe);
-        return ResponseEntity.status(HttpStatus.OK).body(recipe);
-    }
-
-    @PostMapping(path = "/recipe/{id}")
+    @PutMapping(path = "/recipe/{id}")
     public ResponseEntity<Recipe> update(@PathVariable int id, @RequestBody Recipe recipe){
         Optional<Recipe> recipeDb = recipeRepository.findById(id);
         if (!recipeDb.isPresent())
@@ -84,24 +53,4 @@ public class RecipeController {
         return recipeService.save(recipe);
     }
 
-    @GetMapping(path = "/recipe/search/user/{id}")
-    public ResponseEntity<List<Recipe>> findByUser(@PathVariable int id){
-        Optional<User> user = userRepository.findById(id);
-        if(!user.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return ResponseEntity.status(HttpStatus.OK).body(user.get().getRecipes());
-    }
-
-    @GetMapping(path = "/recipe/search/name/{name}")
-    public ResponseEntity<List<Recipe>> findByName(@PathVariable String name){
-        List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
-        List<Recipe> foundRecipes = allRecipes.stream().filter(recipe -> recipe.getName().contains(name)).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(foundRecipes);
-    }
-    @PostMapping(path = "/recipe/search/ingredients")
-    public ResponseEntity<List<Recipe>> findByIngredients(@RequestBody List<Quantity> quantities){
-        List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
-        List<Recipe> foundRecipes = allRecipes.stream().filter(recipe -> recipeService.recipeRespectsQuantities(recipe,quantities)).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(foundRecipes);
-    }
 }

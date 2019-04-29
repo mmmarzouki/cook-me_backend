@@ -1,5 +1,6 @@
 package insat.gl4.cookme.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Step {
     @Column(name = "value")
     private String value;
 
+    @JsonIgnore
     @ManyToOne
     Recipe recipe;
 }

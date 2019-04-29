@@ -1,5 +1,6 @@
 package insat.gl4.cookme.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Comment {
     @ManyToOne
     User user;
 
+    @JsonIgnore
     @ManyToOne
     Recipe recipe;
 }
