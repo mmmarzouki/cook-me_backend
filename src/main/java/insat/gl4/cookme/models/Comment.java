@@ -21,6 +21,9 @@ public class Comment {
     @Column(name = "value")
     private String value;
 
+    @Column(name = "date")
+    private String date;
+
     @ManyToOne
     User user;
 

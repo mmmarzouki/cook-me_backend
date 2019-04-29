@@ -1,4 +1,4 @@
-package insat.gl4.cookme.Services;
+package insat.gl4.cookme.services;
 
 import insat.gl4.cookme.models.Quantity;
 import insat.gl4.cookme.models.Recipe;

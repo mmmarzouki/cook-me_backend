@@ -1,4 +1,4 @@
-package insat.gl4.cookme.Controller;
+package insat.gl4.cookme.controller;
 
 import insat.gl4.cookme.models.User;
 import insat.gl4.cookme.repositories.UserRepository;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 /**
- * Controller for user Model
+ * controller for user Model
  */
 @RestController
 @CrossOrigin(origins = "*")
