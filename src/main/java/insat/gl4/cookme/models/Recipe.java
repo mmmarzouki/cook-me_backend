@@ -15,6 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Recipe {
 
+    public static final String ENTREE = "entrée";
+    public static final String PLAT = "plat";
+    public static final String SOUPE = "soupe";
+    public static final String SALADE = "salade";
+    public static final String DESSERT = "dessert";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
@@ -27,6 +33,12 @@ public class Recipe {
 
     @Column(name = "score")
     private float score;
+
+    @Column(name = "categorie")
+    private String categorie;
+
+    @Column(name = "img")
+    private String img;
 
     @ManyToOne
     private User user;
