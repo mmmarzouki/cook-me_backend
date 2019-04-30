@@ -27,4 +27,7 @@ public class Article {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "img")
+    private String img;
+
 }
