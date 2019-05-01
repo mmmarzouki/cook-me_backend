@@ -18,13 +18,18 @@ public class RatingController {
     @Autowired
     RecipeRepository recipeRepository;
 
+    /**
+     * rates the recipe
+     * @param recipeRated: temp model containing the recipe and a number representating the score
+     * @return the recipe after calculating the new score
+     */
     @PostMapping(path = "/recipe/rate")
     public ResponseEntity<Recipe> rate(@RequestBody RecipeRated recipeRated){
         Recipe recipe = recipeRated.getRecipe();
         float rate = recipeRated.getScore();
-        float score = (recipe.getScore()+rate)/(recipe.getNumVotes()+1);
+        float score = (recipe.getScore()*recipe.getNumVotes() + rate)/(recipe.getNumVotes()+1);
         recipe.setScore(score);
-        recipe.setScore(recipe.getScore()+1);
+        recipe.setNumVotes(recipe.getNumVotes()+1);
         recipeRepository.save(recipe);
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
     }
